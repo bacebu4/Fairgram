@@ -1,0 +1,5 @@
+{
+  
+  "vetur.experimental.templateInterpolationService": true,
+  "editor.formatOnSave": true
+}
