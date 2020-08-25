@@ -2,8 +2,16 @@
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-white text-grey-10" bordered>
       <q-toolbar class="constrain">
-        <q-toolbar-title class="text-grand-hotel q-ml-md">Fairgram</q-toolbar-title>
-        <q-btn flat round to="/" class="large-screen-only q-mr-md" icon="eva-home-outline" />
+        <q-toolbar-title class="text-grand-hotel q-ml-md"
+          >Fairgram</q-toolbar-title
+        >
+        <q-btn
+          flat
+          round
+          to="/"
+          class="large-screen-only q-mr-md"
+          icon="eva-home-outline"
+        />
         <q-btn
           flat
           round
@@ -15,13 +23,17 @@
     </q-header>
 
     <q-footer class="bg-white small-screen-only" bordered>
-      <q-tabs class="text-grey-10" active-color="primary" indicator-color="transparent">
+      <q-tabs
+        class="text-grey-10"
+        active-color="primary"
+        indicator-color="transparent"
+      >
         <q-route-tab to="/" icon="eva-home-outline" />
         <q-route-tab to="/camera" icon="eva-plus-circle-outline" />
       </q-tabs>
     </q-footer>
 
-    <q-page-container>
+    <q-page-container class="bg-grey-1">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -32,7 +44,7 @@ export default {
   name: "MainLayout",
   data() {
     return {};
-  },
+  }
 };
 </script>
 

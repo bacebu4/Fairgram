@@ -1,5 +1,18 @@
 {
-  
   "vetur.experimental.templateInterpolationService": true,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "javascript.preferences.quoteStyle": "single",
+  "prettier.singleQuote": true,
+  "vetur.format.defaultFormatterOptions": {
+    "js-beautify-html": {
+      "wrap_attributes": "force-expand-multiline",
+      "singleQuote": true
+    },
+    "prettyhtml": {
+      "printWidth": 100,
+      "singleQuote": true,
+      "wrapAttributes": false,
+      "sortAttributes": false
+    }
+  }
 }
