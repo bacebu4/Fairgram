@@ -33,7 +33,7 @@
       </q-tabs>
     </q-footer>
 
-    <q-page-container class="bg-grey-1">
+    <q-page-container class="bg-grey-2">
       <router-view />
     </q-page-container>
   </q-layout>

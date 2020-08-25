@@ -24,9 +24,9 @@
             </q-item-section>
           </q-item>
 
-          <q-separator />
-
-          <q-img :src="post.imageUrl" />
+          <div class="img-container">
+            <q-img :src="post.imageUrl" />
+          </div>
 
           <q-card-section>
             <div>{{ post.caption }}</div>
@@ -105,8 +105,13 @@ export default {
 .card-post
   .q-img
     min-height: 200px
+    border-radius: 20px
+
+.img-container
+  padding: 20px
 
 .card--radiused
   border-radius: 25px
   padding-top: 10px
+  border: 0 !important
 </style>
