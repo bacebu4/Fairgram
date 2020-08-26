@@ -9,11 +9,11 @@
     </div>
 
     <div class='row justify-center q-ma-md'>
-      <q-input class='col col-sm-10' outlined v-model='text' label='Caption' dense />
+      <q-input class='col col-sm-10' outlined v-model='post.location' placeholder='Caption' dense />
     </div>
 
     <div class='row justify-center q-ma-md'>
-      <q-input class='col col-sm-10' outlined v-model='text' label='Location' dense>
+      <q-input class='col col-sm-10' outlined v-model='post.caption' placeholder='Location' dense>
         <template v-slot:append>
           <q-btn round dense flat icon='eva-navigation-2-outline' />
         </template>
@@ -27,8 +27,21 @@
 </template>
 
 <script>
+import { uid } from "quasar";
+
 export default {
   name: "PageCamera",
+  data() {
+    return {
+      post: {
+        id: uid(),
+        caption: "",
+        location: "",
+        photo: null,
+        date: Date.now(),
+      },
+    };
+  },
 };
 </script>
 
