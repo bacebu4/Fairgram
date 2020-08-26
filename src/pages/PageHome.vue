@@ -108,7 +108,7 @@ export default {
     border-radius: 20px
 
 .img-container
-  padding: 20px
+  padding: 0 20px
 
 .card--radiused
   border-radius: 25px
