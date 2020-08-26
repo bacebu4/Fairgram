@@ -47,6 +47,7 @@
     <div class="row justify-center q-ma-md">
       <q-input
         class="col col-sm-10"
+        :loading="locationLoading"
         outlined
         v-model="post.location"
         placeholder="Location"
@@ -55,6 +56,7 @@
         <template v-slot:append>
           <q-btn
             @click="getLocation"
+            v-if="!locationLoading && locationSupported"
             round
             dense
             flat
@@ -87,21 +89,40 @@ export default {
       },
       imageCaptured: false,
       hadCameraSupport: true,
-      imageUpload: []
+      imageUpload: [],
+      locationLoading: false
     };
   },
+
+  computed: {
+    locationSupported() {
+      return "geolocation" in navigator;
+    }
+  },
+
   methods: {
-    initCamera() {
-      navigator.mediaDevices
-        .getUserMedia({
+    // initCamera() {
+    //   navigator.mediaDevices
+    //     .getUserMedia({
+    //       video: true
+    //     })
+    //     .then(stream => {
+    //       this.$refs.video.srcObject = stream;
+    //     })
+    //     .catch(error => {
+    //       this.hadCameraSupport = false;
+    //     });
+    // },
+
+    async initCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
           video: true
-        })
-        .then(stream => {
-          this.$refs.video.srcObject = stream;
-        })
-        .catch(error => {
-          this.hadCameraSupport = false;
         });
+        this.$refs.video.srcObject = stream;
+      } catch {
+        this.hadCameraSupport = false;
+      }
     },
 
     captureImage() {
@@ -170,6 +191,7 @@ export default {
     },
 
     getLocation() {
+      this.locationLoading = true;
       navigator.geolocation.getCurrentPosition(
         position => {
           this.getCityAndCountry(position);
@@ -181,21 +203,32 @@ export default {
       );
     },
 
-    getCityAndCountry(position) {
-      console.log(123);
-      let apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
-      this.$axios
-        .get(apiUrl)
-        .then(result => {
-          this.locationSuccess(result);
-        })
-        .catch(err => {
-          this.locationError();
-        });
+    // getCityAndCountry(position) {
+    //   console.log(123);
+    //   let apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
+    //   this.$axios
+    //     .get(apiUrl)
+    //     .then(result => {
+    //       this.locationSuccess(result);
+    //     })
+    //     .catch(err => {
+    //       this.locationError();
+    //     });
+    // },
+
+    async getCityAndCountry(position) {
+      try {
+        const apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
+        const result = await this.$axios.get(apiUrl);
+        this.locationSuccess(result);
+      } catch {
+        this.locationError();
+      }
     },
 
     locationSuccess(result) {
       this.post.location = result.data.city + `, ${result.data?.country}`;
+      this.locationLoading = false;
     },
 
     locationError() {
@@ -203,6 +236,7 @@ export default {
         title: "Error",
         message: "Could not find your location."
       });
+      this.locationLoading = false;
     }
   },
 
