@@ -11,11 +11,21 @@ express = require('express')
 const app = express()
 
 /**
- * endpoint
+ * endpoint - posts
  */
 
-app.get('/', (request, response) => {
-  response.send('love node!')
+app.get('/posts', (request, response) => {
+  const posts = [
+    {
+      caption: 'Golden Gate Bridge',
+      location: 'San Francisco'
+    },
+    {
+      caption: 'London Eye',
+      location: 'London'
+    },
+  ]
+  response.send(posts)
 })
 
 /**
