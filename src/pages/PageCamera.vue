@@ -12,12 +12,26 @@
 
     <div class="text-center q-pa-lg">
       <q-btn
+        v-if="hadCameraSupport"
         @click="captureImage"
         round
         color="grey-10"
         size="lg"
         icon="eva-camera"
       />
+      <q-file
+        @input="captureImageFallback"
+        v-else
+        dense
+        outlined
+        v-model="imageUpload"
+        label="Choose an image"
+        accept="image/*"
+      >
+        <template v-slot:prepend>
+          <q-icon name="eva-attach-outline" />
+        </template>
+      </q-file>
     </div>
 
     <div class="row justify-center q-ma-md">
@@ -65,7 +79,9 @@ export default {
         photo: null,
         date: Date.now()
       },
-      imageCaptured: false
+      imageCaptured: false,
+      hadCameraSupport: true,
+      imageUpload: []
     };
   },
   methods: {
@@ -76,6 +92,9 @@ export default {
         })
         .then(stream => {
           this.$refs.video.srcObject = stream;
+        })
+        .catch(error => {
+          this.hadCameraSupport = false;
         });
     },
 
@@ -88,6 +107,26 @@ export default {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       this.imageCaptured = true;
       this.post.photo = this.dataURItoBlob(canvas.toDataURL());
+    },
+
+    captureImageFallback(file) {
+      this.post.photo = file;
+
+      const canvas = this.$refs.canvas;
+      const context = canvas.getContext("2d");
+
+      const reader = new FileReader();
+      reader.onload = event => {
+        const img = new Image();
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          context.drawImage(img, 0, 0);
+          this.imageCaptured = true;
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
     },
 
     dataURItoBlob(dataURI) {
