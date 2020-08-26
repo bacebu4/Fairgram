@@ -175,7 +175,7 @@ export default {
           this.getCityAndCountry(position);
         },
         error => {
-          console.log("error: ", error);
+          this.locationError();
         },
         { timeout: 7000 }
       );
@@ -190,12 +190,19 @@ export default {
           this.locationSuccess(result);
         })
         .catch(err => {
-          console.log("err: ", err);
+          this.locationError();
         });
     },
 
     locationSuccess(result) {
       this.post.location = result.data.city + `, ${result.data?.country}`;
+    },
+
+    locationError() {
+      this.$q.dialog({
+        title: "Error",
+        message: "Could not find your location."
+      });
     }
   },
 
