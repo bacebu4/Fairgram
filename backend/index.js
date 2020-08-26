@@ -27,17 +27,14 @@ const db = admin.firestore();
  * endpoint - posts
  */
 
-app.get("/posts", (request, response) => {
-  const posts = [
-    {
-      caption: "Golden Gate Bridge",
-      location: "San Francisco"
-    },
-    {
-      caption: "London Eye",
-      location: "London"
-    }
-  ];
+app.get("/posts", async function(request, response) {
+  const posts = [];
+
+  const snapshot = await db.collection("posts").get();
+  snapshot.forEach(doc => {
+    posts.push(doc.data());
+  });
+
   response.send(posts);
 });
 
