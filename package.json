@@ -15,7 +15,8 @@
     "quasar": "^1.0.0"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.0"
+    "@quasar/app": "^2.0.0",
+    "md-gum-polyfill": "^1.0.0"
   },
   "browserslist": [
     "ie >= 11",
