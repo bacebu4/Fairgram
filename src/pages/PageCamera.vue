@@ -1,11 +1,23 @@
 <template>
   <q-page class="constrain-more q-pa-lg">
     <div class="camera-frame q-pa-lg">
-      <video ref="video" class="full-width" autoplay />
+      <video v-show="!imageCaptured" ref="video" class="full-width" autoplay />
+      <canvas
+        v-show="imageCaptured"
+        ref="canvas"
+        class="full-width"
+        height="240"
+      />
     </div>
 
     <div class="text-center q-pa-lg">
-      <q-btn round color="grey-10" size="lg" icon="eva-camera" />
+      <q-btn
+        @click="captureImage"
+        round
+        color="grey-10"
+        size="lg"
+        icon="eva-camera"
+      />
     </div>
 
     <div class="row justify-center q-ma-md">
@@ -52,7 +64,8 @@ export default {
         location: "",
         photo: null,
         date: Date.now()
-      }
+      },
+      imageCaptured: false
     };
   },
   methods: {
@@ -64,6 +77,16 @@ export default {
         .then(stream => {
           this.$refs.video.srcObject = stream;
         });
+    },
+
+    captureImage() {
+      const video = this.$refs.video;
+      const canvas = this.$refs.canvas;
+      canvas.width = video.getBoundingClientRect().width;
+      canvas.height = video.getBoundingClientRect().height;
+      const context = canvas.getContext("2d");
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      this.imageCaptured = true;
     }
   },
   mounted() {
