@@ -4,11 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
+    "deploy": "heroku builds:create -a fairgram-backend"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "core-util-is": "^1.0.2",
     "express": "^4.17.1"
   }
 }
