@@ -6,6 +6,9 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
+const API_LOCAL = 'http://localhost:3000'
+const API_PRODUCTION = 'https://fairgram-backend.herokuapp.com'
+
 module.exports = function(/* ctx */) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
@@ -38,6 +41,9 @@ module.exports = function(/* ctx */) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
+      env: {
+        API: API_LOCAL // API_LOCAL | API_PRODUCTION 
+      },
       vueRouterMode: "hash", // available values: 'hash', 'history'
 
       // transpile: false,

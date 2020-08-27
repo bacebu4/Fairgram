@@ -1,73 +1,62 @@
 <template>
-  <q-page class="constrain-more q-pa-lg">
-    <div class="camera-frame q-pa-lg">
-      <video v-show="!imageCaptured" ref="video" class="full-width" autoplay />
-      <canvas
-        v-show="imageCaptured"
-        ref="canvas"
-        class="full-width"
-        height="240"
-      />
+  <q-page class='constrain-more q-pa-lg'>
+    <div class='camera-frame q-pa-lg'>
+      <video v-show='!imageCaptured' ref='video' class='full-width' autoplay />
+      <canvas v-show='imageCaptured' ref='canvas' class='full-width' height='240' />
     </div>
 
-    <div class="text-center q-pa-lg">
+    <div class='text-center q-pa-lg'>
       <q-btn
-        v-if="hadCameraSupport"
-        @click="captureImage"
+        v-if='hadCameraSupport'
+        @click='captureImage'
         round
-        color="grey-10"
-        size="lg"
-        icon="eva-camera"
+        color='grey-10'
+        size='lg'
+        icon='eva-camera'
       />
       <q-file
-        @input="captureImageFallback"
+        @input='captureImageFallback'
         v-else
         dense
         outlined
-        v-model="imageUpload"
-        label="Choose an image"
-        accept="image/*"
+        v-model='imageUpload'
+        label='Choose an image'
+        accept='image/*'
       >
         <template v-slot:prepend>
-          <q-icon name="eva-attach-outline" />
+          <q-icon name='eva-attach-outline' />
         </template>
       </q-file>
     </div>
 
-    <div class="row justify-center q-ma-md">
-      <q-input
-        class="col col-sm-10"
-        outlined
-        v-model="post.caption"
-        placeholder="Caption"
-        dense
-      />
+    <div class='row justify-center q-ma-md'>
+      <q-input class='col col-sm-10' outlined v-model='post.caption' placeholder='Caption' dense />
     </div>
 
-    <div class="row justify-center q-ma-md">
+    <div class='row justify-center q-ma-md'>
       <q-input
-        class="col col-sm-10"
-        :loading="locationLoading"
+        class='col col-sm-10'
+        :loading='locationLoading'
         outlined
-        v-model="post.location"
-        placeholder="Location"
+        v-model='post.location'
+        placeholder='Location'
         dense
       >
         <template v-slot:append>
           <q-btn
-            @click="getLocation"
-            v-if="!locationLoading && locationSupported"
+            @click='getLocation'
+            v-if='!locationLoading && locationSupported'
             round
             dense
             flat
-            icon="eva-navigation-2-outline"
+            icon='eva-navigation-2-outline'
           />
         </template>
       </q-input>
     </div>
 
-    <div class="row justify-center q-mt-lg">
-      <q-btn unelevated rounded color="primary" no-caps label="Post image" />
+    <div class='row justify-center q-mt-lg'>
+      <q-btn unelevated rounded color='primary' no-caps label='Post image' />
     </div>
   </q-page>
 </template>
@@ -85,39 +74,26 @@ export default {
         caption: "",
         location: "",
         photo: null,
-        date: Date.now()
+        date: Date.now(),
       },
       imageCaptured: false,
       hadCameraSupport: true,
       imageUpload: [],
-      locationLoading: false
+      locationLoading: false,
     };
   },
 
   computed: {
     locationSupported() {
       return "geolocation" in navigator;
-    }
+    },
   },
 
   methods: {
-    // initCamera() {
-    //   navigator.mediaDevices
-    //     .getUserMedia({
-    //       video: true
-    //     })
-    //     .then(stream => {
-    //       this.$refs.video.srcObject = stream;
-    //     })
-    //     .catch(error => {
-    //       this.hadCameraSupport = false;
-    //     });
-    // },
-
     async initCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: true
+          video: true,
         });
         this.$refs.video.srcObject = stream;
       } catch {
@@ -144,7 +120,7 @@ export default {
       const context = canvas.getContext("2d");
 
       const reader = new FileReader();
-      reader.onload = event => {
+      reader.onload = (event) => {
         const img = new Image();
         img.onload = () => {
           canvas.width = img.width;
@@ -158,7 +134,7 @@ export default {
     },
 
     disableCamera() {
-      this.$refs.video.srcObject.getVideoTracks().forEach(track => {
+      this.$refs.video.srcObject.getVideoTracks().forEach((track) => {
         track.stop();
       });
     },
@@ -169,10 +145,7 @@ export default {
       const byteString = atob(dataURI.split(",")[1]);
 
       // separate out the mime component
-      const mimeString = dataURI
-        .split(",")[0]
-        .split(":")[1]
-        .split(";")[0];
+      const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
 
       // write the bytes of the string to an ArrayBuffer
       const ab = new ArrayBuffer(byteString.length);
@@ -193,36 +166,23 @@ export default {
     getLocation() {
       this.locationLoading = true;
       navigator.geolocation.getCurrentPosition(
-        position => {
+        (position) => {
           this.getCityAndCountry(position);
         },
-        error => {
+        (error) => {
           this.locationError();
         },
         { timeout: 7000 }
       );
     },
 
-    // getCityAndCountry(position) {
-    //   console.log(123);
-    //   let apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
-    //   this.$axios
-    //     .get(apiUrl)
-    //     .then(result => {
-    //       this.locationSuccess(result);
-    //     })
-    //     .catch(err => {
-    //       this.locationError();
-    //     });
-    // },
-
     async getCityAndCountry(position) {
       try {
         const apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
         const result = await this.$axios.get(apiUrl);
         this.locationSuccess(result);
-      } catch {
-        this.locationError();
+      } catch (e) {
+        this.locationError(e);
       }
     },
 
@@ -231,13 +191,13 @@ export default {
       this.locationLoading = false;
     },
 
-    locationError() {
+    locationError(e) {
       this.$q.dialog({
         title: "Error",
-        message: "Could not find your location."
+        message: "Could not find your location.",
       });
       this.locationLoading = false;
-    }
+    },
   },
 
   mounted() {
@@ -248,7 +208,7 @@ export default {
     if (this.hadCameraSupport) {
       this.disableCamera();
     }
-  }
+  },
 };
 </script>
 

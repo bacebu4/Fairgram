@@ -106,7 +106,7 @@ export default {
     async getPosts() {
       try {
         this.loadingPosts = true;
-        const response = await this.$axios.get("http://localhost:3000/posts");
+        const response = await this.$axios.get(`${process.env.API}/posts`);
         this.posts = response.data;
       } catch (e) {
         this.$q.dialog({
