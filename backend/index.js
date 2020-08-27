@@ -32,7 +32,10 @@ app.get("/posts", async function(request, response) {
 
   const posts = [];
 
-  const snapshot = await db.collection("posts").get();
+  const snapshot = await db
+    .collection("posts")
+    .orderBy("date", "desc")
+    .get();
   snapshot.forEach(doc => {
     posts.push(doc.data());
   });
