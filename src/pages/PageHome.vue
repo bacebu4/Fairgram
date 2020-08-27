@@ -2,7 +2,7 @@
   <q-page class='constrain q-pa-lg'>
     <div class='row q-col-gutter-lg'>
       <div class='col-12 col-sm-8'>
-        <template v-if='!loadingPosts'>
+        <template v-if='!loadingPosts && posts.length'>
           <q-card
             class='card-post card--radiused q-mb-lg'
             v-for='post in posts'
@@ -34,6 +34,9 @@
               <div class='text-caption text-grey'>{{ niceDate(post.date) }}</div>
             </q-card-section>
           </q-card>
+        </template>
+        <template v-else-if='!loadingPosts && !posts.length'>
+          <h5 class='text-center text-grey'>No posts yet!</h5>
         </template>
         <template v-else v-for='instance in skeletonInstances'>
           <q-card :key='instance' flat bordered class='card-post card--radiused q-mb-lg'>
