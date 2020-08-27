@@ -35,8 +35,8 @@
             </q-card-section>
           </q-card>
         </template>
-        <template v-else>
-          <q-card flat bordered class='card-post card--radiused q-mb-lg'>
+        <template v-else v-for='instance in skeletonInstances'>
+          <q-card :key='instance' flat bordered class='card-post card--radiused q-mb-lg'>
             <q-item>
               <q-item-section avatar>
                 <q-skeleton type='QAvatar' animation='fade' size='40px' />
@@ -91,6 +91,7 @@ export default {
     return {
       posts: [],
       loadingPosts: false,
+      skeletonInstances: [1, 2, 3],
     };
   },
 
