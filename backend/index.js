@@ -28,6 +28,8 @@ const db = admin.firestore();
  */
 
 app.get("/posts", async function(request, response) {
+  response.set("Access-Control-Allow-Origin", "*");
+
   const posts = [];
 
   const snapshot = await db.collection("posts").get();
