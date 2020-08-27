@@ -75,7 +75,10 @@ export default {
         const response = await this.$axios.get("http://localhost:3000/posts");
         this.posts = response.data;
       } catch (e) {
-        console.log("e: ", e);
+        this.$q.dialog({
+          title: "Error",
+          message: "Could not download posts.",
+        });
       }
     },
   },
