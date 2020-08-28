@@ -9,6 +9,7 @@
       <q-btn
         v-if='hadCameraSupport'
         @click='captureImage'
+        :disable='imageCaptured'
         round
         color='grey-10'
         size='lg'
@@ -30,7 +31,13 @@
     </div>
 
     <div class='row justify-center q-ma-md'>
-      <q-input class='col col-sm-10' outlined v-model='post.caption' placeholder='Caption' dense />
+      <q-input
+        class='col col-sm-10'
+        outlined
+        v-model.trim='post.caption'
+        placeholder='Caption (required)'
+        dense
+      />
     </div>
 
     <div class='row justify-center q-ma-md'>
@@ -38,7 +45,7 @@
         class='col col-sm-10'
         :loading='locationLoading'
         outlined
-        v-model='post.location'
+        v-model.trim='post.location'
         placeholder='Location'
         dense
       >
@@ -56,7 +63,15 @@
     </div>
 
     <div class='row justify-center q-mt-lg'>
-      <q-btn @click='addPost()' unelevated rounded color='primary' no-caps label='Post image' />
+      <q-btn
+        @click='addPost()'
+        :disable='!post.caption || !post.photo'
+        unelevated
+        rounded
+        color='primary'
+        no-caps
+        label='Post image'
+      />
     </div>
   </q-page>
 </template>
