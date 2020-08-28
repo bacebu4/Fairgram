@@ -216,6 +216,10 @@ export default {
 
     async addPost() {
       try {
+        this.$q.loading.show({
+          delay: 400, // ms
+        });
+
         const formData = new FormData();
         formData.append("id", this.post.id);
         formData.append("caption", this.post.caption);
@@ -238,6 +242,8 @@ export default {
           title: "Error",
           message: "Sorry, could not upload your post...",
         });
+      } finally {
+        this.$q.loading.hide();
       }
     },
   },
