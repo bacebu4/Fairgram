@@ -14,6 +14,7 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    "busboy": "^0.3.1",
     "core-util-is": "^1.0.2",
     "express": "^4.17.1",
     "firebase-admin": "^9.1.1"
