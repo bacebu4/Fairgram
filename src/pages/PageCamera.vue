@@ -228,8 +228,16 @@ export default {
           formData
         );
         console.log("response: ", response);
+        this.$router.push("/");
+        this.$q.notify({
+          message: "Post was successfully created!",
+          actions: [{ label: "Dismiss", color: "white" }],
+        });
       } catch (e) {
-        console.log("e: ", e);
+        this.$q.dialog({
+          title: "Error",
+          message: "Sorry, could not upload your post...",
+        });
       }
     },
   },
