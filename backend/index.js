@@ -53,6 +53,7 @@ app.post("/createPost", async function(request, response) {
   response.set("Access-Control-Allow-Origin", "*");
 
   const busboy = new Busboy({ headers: request.headers });
+  const fields = {};
 
   busboy.on("file", function(fieldname, file, filename, encoding, mimetype) {
     console.log(
@@ -75,11 +76,19 @@ app.post("/createPost", async function(request, response) {
     mimetype
   ) {
     console.log(`Field [${fieldname}]: value: ${inspect(val)}`);
+    fields[fieldname] = val;
   });
 
-  busboy.on("finish", function() {
-    console.log("Done parsing form!");
-    // response.writeHead(303, { Connection: "close", Location: "/" });
+  busboy.on("finish", async function() {
+    fields.date = +fields.date;
+    await db
+      .collection("posts")
+      .doc(fields.id)
+      .set({
+        ...fields,
+        imageUrl:
+          "https://firebasestorage.googleapis.com/v0/b/fairgram-bf8f5.appspot.com/o/photo-1470016342826-876ea880d0be.jpeg?alt=media&token=b6ee9b5f-1f01-4107-b083-98df1bad6aa7"
+      });
     response.send("Done!");
   });
   request.pipe(busboy);
