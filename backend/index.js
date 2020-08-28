@@ -47,10 +47,10 @@ app.get("/posts", async function(request, response) {
  * endpoint - createPosts
  */
 
-app.get("/createPost", async function(request, response) {
+app.post("/createPost", async function(request, response) {
   response.set("Access-Control-Allow-Origin", "*");
 
-  response.send("createPost");
+  response.send(request.headers);
 });
 
 /**
