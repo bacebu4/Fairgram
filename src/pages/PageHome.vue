@@ -109,10 +109,10 @@ export default {
         const response = await this.$axios.get(`${process.env.API}/posts`);
         this.posts = response.data;
       } catch (e) {
-        this.$q.dialog({
-          title: "Error",
-          message: "Could not download posts.",
-        });
+        // this.$q.dialog({
+        //   title: "Error",
+        //   message: "Could not download posts.",
+        // });
       } finally {
         this.loadingPosts = false;
       }
