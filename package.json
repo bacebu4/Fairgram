@@ -6,7 +6,8 @@
   "author": "bacebu4 <vasua14735@icloud.com>",
   "private": true,
   "scripts": {
-    "icons": "icongenie generate -i app-icon.png --skip-trim --theme-color ffffff"
+    "icons": "icongenie generate -i app-icon.png --skip-trim --theme-color ffffff",
+    "deploy": "sudo quasar build -m pwa && sudo firebase deploy"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
